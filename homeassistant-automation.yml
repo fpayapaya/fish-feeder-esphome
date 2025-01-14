@@ -1,0 +1,26 @@
+alias: Fish Feeder
+description: Fish feeder using esp32 + servo
+triggers:
+  - trigger: time
+    at: "07:30:00"
+  - trigger: time
+    at: "18:00:00"
+conditions: []
+actions:
+  - action: number.set_value
+    metadata: {}
+    data:
+      value: "90"
+    target:
+      entity_id: number.fish_feeder_servo
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  - action: number.set_value
+    metadata: {}
+    data:
+      value: "-90"
+    target:
+      entity_id: number.fish_feeder_servo
+mode: single
