@@ -1,13 +1,15 @@
 # esp home config
 esphome:
   name: fishfeeder
-  platform: ESP32
-  board: esp32cam  
   on_boot:
     priority: -100
     then:
       - lambda: !lambda |-
           id(servoSlider1).make_call().set_value(-90).perform();
+ 
+esp32:
+  board: esp32cam  
+
 #Enable logging
 logger:
 
@@ -69,20 +71,21 @@ number:
     name: Fish Feeder Servo
     icon: mdi:sync
     optimistic: true
-    min_value: -90
-    max_value: 90
-    initial_value: -90
+    min_value: -100
+    max_value: 100
+    initial_value: -100
     step: 5
     on_value:
       then:
         - lambda: !lambda |-
             // Servo Write range is: -1.0 to 1.0, so divide by 100
-            id(fish_feeder_servo).write(x / 90.0);
+            id(fish_feeder_servo).write(x / 100.0);
 
 servo:
   - id: fish_feeder_servo
     output: pwm_output
     auto_detach_time: 5s
+    transition_length: 3s      
     min_level: 3.2%
     idle_level: 7.5%
     max_level: 12.7%  
